@@ -7,4 +7,8 @@ static const String logoBar='assets/images/logo_bar.png';
 static const String mangerDesk='assets/images/manager-desk.png';
 static const String socialMedia='assets/images/social-media.png';
 static const String hotTrending='assets/images/hot-trending.png';
+static const String eg='assets/svg/EG.svg';
+static const String us='assets/svg/US.svg';
+static const String sun='assets/svg/Sun.svg';
+static const String moon='assets/svg/Moon.svg';
 }

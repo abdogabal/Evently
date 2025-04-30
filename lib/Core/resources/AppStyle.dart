@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'ColorManger.dart';
 
 class AppStyle {
+  static ThemeMode themeMode=ThemeMode.light;
   static ThemeData lightTheme = ThemeData(
     appBarTheme: AppBarTheme(
       centerTitle: true,
@@ -14,6 +15,7 @@ class AppStyle {
       primary: ColorManger.blue,
       secondary: ColorManger.black,
       tertiary: ColorManger.red,
+      onPrimary: Colors.white,
     ),
     textTheme: TextTheme(
       labelMedium: TextStyle(
@@ -47,6 +49,7 @@ class AppStyle {
       primary: ColorManger.blue,
       secondary: ColorManger.white,
       tertiary: ColorManger.red,
+      onPrimary: Colors.black,
     ),
     useMaterial3: true,
     scaffoldBackgroundColor: ColorManger.darkBackground,
