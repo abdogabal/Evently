@@ -1,12 +1,29 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:evently/Core/PrefsManager.dart';
 import 'package:evently/Core/resources/AppStyle.dart';
 import 'package:evently/Core/resources/ColorManger.dart';
+import 'package:evently/Providers/ThemeProvider.dart';
 import 'package:evently/UI/splash/screen/splash_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'UI/Start/Screen/Start_Screen.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
+  await PrefsManager.init();
+  runApp(
+    EasyLocalization(
+      supportedLocales: [Locale('en'), Locale('ar')],
+      path: 'assets/translations',
+      saveLocale: true,
+      startLocale: Locale('en'),
+      fallbackLocale: Locale('en'),
+      child: ChangeNotifierProvider(create: (context)=>ThemeProviders()..init(),
+      child: MyApp()),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -15,9 +32,13 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    ThemeProviders provider=Provider.of<ThemeProviders>(context);
     return MaterialApp(
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
       theme: AppStyle.lightTheme,
-      themeMode: AppStyle.themeMode,
+      themeMode: provider.themeMode,
       darkTheme: AppStyle.darkTheme,
       debugShowCheckedModeBanner: false,
       routes: {

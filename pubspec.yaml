@@ -38,6 +38,8 @@ dependencies:
   animated_toggle_switch: ^0.8.5
   flutter_svg: ^2.1.0
   easy_localization: ^3.0.7+1
+  provider: ^6.1.5
+  shared_preferences: ^2.5.3
 
 dev_dependencies:
   flutter_test:
@@ -65,6 +67,7 @@ flutter:
   assets:
     - assets/images/
     - assets/svg/
+    - assets/translations/
   #   - images/a_dot_ham.jpeg
 
   # An images asset can refer to one or more resolution-specific "variants", see

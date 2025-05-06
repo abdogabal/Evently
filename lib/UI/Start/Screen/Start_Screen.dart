@@ -1,10 +1,13 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:evently/Core/PrefsManager.dart';
 import 'package:evently/Core/Reusable_Component/CustomButton.dart';
 import 'package:evently/Core/Reusable_Component/CustomSwitch.dart';
 import 'package:evently/Core/resources/AppStyle.dart';
 import 'package:evently/Core/resources/AssetsManger.dart';
-import 'package:evently/Core/resources/ColorManger.dart';
 import 'package:evently/Core/resources/StringsManger.dart';
+import 'package:evently/Providers/ThemeProvider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class StartScreen extends StatefulWidget {
   static const routeName = 'Start';
@@ -20,6 +23,9 @@ class _StartScreenState extends State<StartScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ThemeProviders provider=Provider.of<ThemeProviders>(context);
+    PrefsManager.getTheme()?selectedTheme=1:selectedTheme=0;
+    context.locale.toString()=='ar'?selectedLanguage=1:selectedLanguage=0;
     return Scaffold(
       appBar: AppBar(
         title: Image.asset(AssetsManger.logoBar, height: 50, width: 150),
@@ -40,12 +46,12 @@ class _StartScreenState extends State<StartScreen> {
             ),
             SizedBox(height: 28),
             Text(
-              StringsManger.startTitle,
+              StringsManger.startTitle.tr(),
               style: Theme.of(context).textTheme.titleMedium,
             ),
             SizedBox(height: 28),
             Text(
-              StringsManger.startDescription,
+              StringsManger.startDescription.tr(),
               style: Theme.of(context).textTheme.bodySmall,
             ),
             SizedBox(height: 28),
@@ -53,7 +59,7 @@ class _StartScreenState extends State<StartScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  StringsManger.language,
+                  StringsManger.language.tr(),
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.w500,
                   ),
@@ -65,6 +71,11 @@ class _StartScreenState extends State<StartScreen> {
                   onChange: (value) {
                     setState(() {
                       selectedLanguage = value;
+                      if(selectedLanguage==1){
+                        context.setLocale(Locale('ar'));
+                      }else{
+                        context.setLocale(Locale('en'));
+                      }
                     });
                   },
                 ),
@@ -75,7 +86,7 @@ class _StartScreenState extends State<StartScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  StringsManger.theme,
+                  StringsManger.theme.tr(),
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.w500,
                   ),
@@ -89,16 +100,24 @@ class _StartScreenState extends State<StartScreen> {
                   onChange: (value) {
                     setState(() {
                       selectedTheme = value;
-                      selectedLanguage == 1
-                          ? AppStyle.themeMode = ThemeMode.dark
-                          : AppStyle.themeMode = ThemeMode.light;
+                      if(selectedTheme == 1){
+                        PrefsManager.setTheme(true);
+                        provider.changeTheme(ThemeMode.dark);
+                      }else{
+                        PrefsManager.setTheme(false);
+                        provider.changeTheme(ThemeMode.light);
+
+                      }
+
                     });
                   },
                 ),
               ],
             ),
             SizedBox(height: 28),
-            CustomButton(title: StringsManger.begin, onClick: () {}),
+            CustomButton(title: StringsManger.begin.tr(), onClick: (){
+
+            }),
           ],
         ),
       ),
