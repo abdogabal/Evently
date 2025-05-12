@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'UI/Login/Screens/Login_Screen.dart';
+import 'UI/Onboarding/Screens/Onboarding_Screens.dart';
 import 'UI/Start/Screen/Start_Screen.dart';
 
 void main() async {
@@ -52,7 +53,7 @@ class MyApp extends StatelessWidget {
         RegisterScreen.routeName: (_) => RegisterScreen(),
         LoginScreen.routeName: (_) => LoginScreen(),
         ForgetPassScreen.routeName: (_) => ForgetPassScreen(),
-
+        OnboardingScreen.routeName: (_) => OnboardingScreen(),
       },
       initialRoute: SplashScreen.routeName,
     );

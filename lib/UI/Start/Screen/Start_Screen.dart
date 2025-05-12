@@ -7,7 +7,7 @@ import 'package:evently/Core/resources/AssetsManger.dart';
 import 'package:evently/Core/resources/StringsManger.dart';
 import 'package:evently/Providers/ThemeProvider.dart';
 import 'package:evently/UI/Login/Screens/Login_Screen.dart';
-
+import 'package:evently/UI/Onboarding/Screens/Onboarding_Screens.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -120,7 +120,7 @@ class _StartScreenState extends State<StartScreen> {
             CustomButton(
               title: StringsManger.begin.tr(),
               onClick: () {
-                Navigator.pushNamed(context, LoginScreen.routeName);
+                Navigator.pushNamed(context, OnboardingScreen.routeName);
               },
             ),
           ],

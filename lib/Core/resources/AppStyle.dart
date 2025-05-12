@@ -15,6 +15,7 @@ class AppStyle {
         color: ColorManger.black,
       ),
     ),
+
     colorScheme: ColorScheme.fromSeed(
       brightness: Brightness.light,
       seedColor: Colors.purple,
@@ -22,9 +23,9 @@ class AppStyle {
       secondary: ColorManger.black,
       tertiary: ColorManger.red,
       onPrimary: Colors.white,
-      onPrimaryContainer: ColorManger.grey
+      onPrimaryContainer: ColorManger.grey,
+      onSecondary: Colors.black,
     ),
-
 
     textTheme: TextTheme(
       labelMedium: TextStyle(
@@ -45,8 +46,8 @@ class AppStyle {
       titleSmall: TextStyle(
         fontSize: 16,
         fontWeight: FontWeight.w500,
-        color: ColorManger.grey
-      )
+        color: ColorManger.grey,
+      ),
     ),
 
     useMaterial3: true,
@@ -71,6 +72,7 @@ class AppStyle {
       tertiary: ColorManger.red,
       onPrimary: Colors.black,
       onPrimaryContainer: ColorManger.white,
+      onSecondary: Colors.white,
     ),
 
     useMaterial3: true,
@@ -91,11 +93,11 @@ class AppStyle {
         color: ColorManger.white,
         fontSize: 16,
       ),
-        titleSmall: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w500,
-            color: ColorManger.grey
-        )
+      titleSmall: TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.w500,
+        color: ColorManger.grey,
+      ),
     ),
   );
 }

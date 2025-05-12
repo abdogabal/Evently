@@ -126,7 +126,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     child: CustomButton(
                       title: StringsManger.createAcc.tr(),
                       onClick: () {
-                        formKey.currentState?.validate();
+                        if( formKey.currentState!.validate()){
+
+                        }
                       },
                     ),
                   ),

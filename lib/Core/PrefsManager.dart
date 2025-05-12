@@ -13,4 +13,11 @@ class PrefsManager {
   static bool getTheme(){
     return prefs.getBool('theme')??false;
   }
+  static onboardingFirstTime() {
+    prefs.setBool('FirstTime', false);
+  }
+
+  static bool onboardingActive() {
+    return prefs.getBool('FirstTime') ?? true;
+  }
 }

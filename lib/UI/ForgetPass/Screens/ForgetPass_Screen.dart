@@ -63,12 +63,15 @@ class _ForgetPassScreenState extends State<ForgetPassScreen> {
                     hint: StringsManger.email.tr(),
                     prefixIcon: AssetsManger.mail,
                   ),
+                  SizedBox(height: 16,),
                   Container(
                     width: double.infinity,
                     child: CustomButton(
                       title: StringsManger.resetpass.tr(),
                       onClick: () {
-                        formKey.currentState?.validate();
+                       if( formKey.currentState!.validate()){
+
+                       }
                       },
                     ),
                   ),

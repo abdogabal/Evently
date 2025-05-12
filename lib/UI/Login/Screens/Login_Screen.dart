@@ -106,7 +106,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: CustomButton(
                       title: StringsManger.login.tr(),
                       onClick: () {
-                        formKey.currentState?.validate();
+                        if( formKey.currentState!.validate()){
+
+                        }
                       },
                     ),
                   ),
