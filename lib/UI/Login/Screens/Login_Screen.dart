@@ -1,15 +1,19 @@
 import 'dart:ffi';
 
 import 'package:easy_localization/easy_localization.dart';
-import 'package:evently/Core/Constants.dart';
+import 'package:evently/Core/resources/Constants.dart';
 import 'package:evently/Core/Reusable_Component/CustomButton.dart';
 import 'package:evently/Core/Reusable_Component/CustomTextField.dart';
 import 'package:evently/Core/resources/AssetsManger.dart';
 import 'package:evently/Core/resources/ColorManger.dart';
 import 'package:evently/Core/resources/StringsManger.dart';
 import 'package:evently/UI/ForgetPass/Screens/ForgetPass_Screen.dart';
+import 'package:evently/UI/Home/Screens/HomeScreen.dart';
 import 'package:evently/UI/Register/Screens/Register_Screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
+import '../../../Core/DialogUtils.dart';
 
 class LoginScreen extends StatefulWidget {
   static const String routeName = 'Login';
@@ -93,7 +97,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         );
                       },
                       child: Text(
-                        StringsManger.forgetpass.tr(),
+                        StringsManger.forgetPass.tr(),
                         style: Theme.of(context).textTheme.bodySmall!.copyWith(
                           color: Theme.of(context).colorScheme.primary,
                           decoration: TextDecoration.underline,
@@ -106,8 +110,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: CustomButton(
                       title: StringsManger.login.tr(),
                       onClick: () {
-                        if( formKey.currentState!.validate()){
-
+                        if (formKey.currentState?.validate() ?? false) {
+                          login();
                         }
                       },
                     ),
@@ -116,7 +120,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        StringsManger.dontHaveAcc.tr(),
+                        StringsManger.notHaveAcc.tr(),
                         style: Theme.of(context).textTheme.bodySmall,
                       ),
                       TextButton(
@@ -169,7 +173,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       SizedBox(width: 16),
                     ],
                   ),
-                  SizedBox(height: 24,),
+                  SizedBox(height: 24),
                   Container(
                     width: double.infinity,
                     child: ElevatedButton(
@@ -182,8 +186,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           borderRadius: BorderRadius.circular(16),
                           side: BorderSide(
                             color: Theme.of(context).colorScheme.primary,
-
-                          )
+                          ),
                         ),
                       ),
                       child: Row(
@@ -195,12 +198,14 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           Text(
                             StringsManger.logWithGoogle.tr(),
-                            style: Theme.of(context).textTheme.labelMedium!.copyWith(
+                            style: Theme.of(
+                              context,
+                            ).textTheme.labelMedium!.copyWith(
                               color: Theme.of(context).colorScheme.primary,
                             ),
                           ),
                         ],
-                      )
+                      ),
                     ),
                   ),
                 ],
@@ -210,5 +215,53 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+  }
+
+  login() async {
+    try {
+      DialogUtils.showLoading(context);
+      UserCredential credential = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(
+            email: emailController.text,
+            password: passController.text,
+          );
+      Navigator.pop(context);
+      DialogUtils.showSnackBar(context, StringsManger.loginSuccess.tr());
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        HomeScreen.routeName,
+        (routeName) => false,
+      );
+    } on FirebaseAuthException catch (e) {
+      Navigator.pop(context);
+      if (e.code == 'user-not-found') {
+        DialogUtils.showMassageDialog(
+          context: context,
+          massage: StringsManger.noUserAcc.tr(),
+          posTitle: StringsManger.ok.tr(),
+          posClick: () {
+            Navigator.pop(context);
+          },
+        );
+      } else if (e.code == 'wrong-password') {
+        DialogUtils.showMassageDialog(
+          context: context,
+          massage: StringsManger.wrongPass.tr(),
+          posTitle: StringsManger.ok.tr(),
+          posClick: () {
+            Navigator.pop(context);
+          },
+        );
+      } else {
+        DialogUtils.showMassageDialog(
+          context: context,
+          massage: e.code,
+          posTitle: StringsManger.ok.tr(),
+          posClick: () {
+            Navigator.pop(context);
+          },
+        );
+      }
+    }
   }
 }

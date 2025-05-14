@@ -1,12 +1,16 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:evently/Core/Constants.dart';
+import 'package:evently/Core/DialogUtils.dart';
+import 'package:evently/Core/resources/Constants.dart';
 import 'package:evently/Core/Reusable_Component/CustomButton.dart';
 import 'package:evently/Core/Reusable_Component/CustomTextField.dart';
 import 'package:evently/Core/resources/AssetsManger.dart';
 import 'package:evently/Core/resources/ColorManger.dart';
 import 'package:evently/Core/resources/StringsManger.dart';
 import 'package:evently/UI/Login/Screens/Login_Screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
+import '../../Home/Screens/HomeScreen.dart';
 
 class RegisterScreen extends StatefulWidget {
   static const String routeName = 'register';
@@ -126,8 +130,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     child: CustomButton(
                       title: StringsManger.createAcc.tr(),
                       onClick: () {
-                        if( formKey.currentState!.validate()){
-
+                        if (formKey.currentState?.validate() ?? false) {
+                          signup();
                         }
                       },
                     ),
@@ -141,11 +145,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                       TextButton(
                         onPressed: () {
-                          Navigator.pushReplacementNamed(context, LoginScreen.routeName);
+                          Navigator.pushReplacementNamed(
+                            context,
+                            LoginScreen.routeName,
+                          );
                         },
                         child: Text(
                           StringsManger.login.tr(),
-                          style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          style: Theme.of(
+                            context,
+                          ).textTheme.bodySmall!.copyWith(
                             color: Theme.of(context).colorScheme.primary,
                             decoration: TextDecoration.underline,
                           ),
@@ -161,5 +170,53 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
       ),
     );
+  }
+
+  signup() async {
+    try {
+      DialogUtils.showLoading(context);
+      UserCredential credential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+            email: emailController.text,
+            password: passController.text,
+          );
+      Navigator.pop(context);
+    } on FirebaseAuthException catch (e) {
+      Navigator.pop(context);
+      if (e.code == 'weak-password') {
+        DialogUtils.showMassageDialog(
+          context: context,
+          massage: StringsManger.weakPass.tr(),
+          posTitle: StringsManger.ok.tr(),
+          posClick: () {
+            Navigator.pop(context);
+          },
+        );
+        DialogUtils.showSnackBar(context, StringsManger.registerSuccess.tr());
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          HomeScreen.routeName,
+          (routeName) => false,
+        );
+      } else if (e.code == 'email-already-in-use') {
+        DialogUtils.showMassageDialog(
+          context: context,
+          massage: StringsManger.accExist.tr(),
+          posTitle: StringsManger.ok.tr(),
+          posClick: () {
+            Navigator.pop(context);
+          },
+        );
+      } else {
+        DialogUtils.showMassageDialog(
+          context: context,
+          massage: e.code,
+          posTitle: StringsManger.ok.tr(),
+          posClick: () {
+            Navigator.pop(context);
+          },
+        );
+      }
+    }
   }
 }

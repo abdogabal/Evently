@@ -1,12 +1,15 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:evently/Core/Constants.dart';
+import 'package:evently/Core/resources/Constants.dart';
 import 'package:evently/Core/Reusable_Component/CustomButton.dart';
 import 'package:evently/Core/Reusable_Component/CustomTextField.dart';
 import 'package:evently/Core/resources/AssetsManger.dart';
 import 'package:evently/Core/resources/ColorManger.dart';
 import 'package:evently/Core/resources/StringsManger.dart';
 import 'package:evently/UI/Register/Screens/Register_Screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
+import '../../../Core/DialogUtils.dart';
 
 class ForgetPassScreen extends StatefulWidget {
   static const String routeName = 'forgetPass';
@@ -63,15 +66,15 @@ class _ForgetPassScreenState extends State<ForgetPassScreen> {
                     hint: StringsManger.email.tr(),
                     prefixIcon: AssetsManger.mail,
                   ),
-                  SizedBox(height: 16,),
+                  SizedBox(height: 16),
                   Container(
                     width: double.infinity,
                     child: CustomButton(
-                      title: StringsManger.resetpass.tr(),
+                      title: StringsManger.resetPass.tr(),
                       onClick: () {
-                       if( formKey.currentState!.validate()){
-
-                       }
+                        if (formKey.currentState?.validate() ?? false) {
+                          resetPass();
+                        }
                       },
                     ),
                   ),
@@ -82,5 +85,37 @@ class _ForgetPassScreenState extends State<ForgetPassScreen> {
         ),
       ),
     );
+  }
+
+  resetPass() async {
+    try {
+      DialogUtils.showLoading(context);
+      await FirebaseAuth.instance.sendPasswordResetEmail(
+        email: emailController.text,
+      );
+      Navigator.pop(context);
+      DialogUtils.showSnackBar(context, StringsManger.resetLinkSent.tr());
+    } on FirebaseAuthException catch (e) {
+      Navigator.pop(context);
+      if (e.code == "user-not-found") {
+        DialogUtils.showMassageDialog(
+          context: context,
+          massage: StringsManger.noUserAcc.tr(),
+          posTitle: StringsManger.ok.tr(),
+          posClick: () {
+            Navigator.pop(context);
+          },
+        );
+      } else {
+        DialogUtils.showMassageDialog(
+          context: context,
+          massage: e.code,
+          posTitle: StringsManger.ok.tr(),
+          posClick: () {
+            Navigator.pop(context);
+          },
+        );
+      }
+    }
   }
 }

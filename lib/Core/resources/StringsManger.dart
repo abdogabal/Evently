@@ -12,9 +12,9 @@ abstract final class StringsManger {
   static const String rePass = 'repass';
   static const String createAcc = 'createAcc';
   static const String alreadyHaveAcc = 'alreadyHaveAcc';
-  static const String dontHaveAcc = 'dontHaveAcc';
-  static const String forgetpass = 'forgetpass';
-  static const String resetpass = 'resetpass';
+  static const String notHaveAcc = 'notHaveAcc';
+  static const String forgetPass = 'forgetPass';
+  static const String resetPass = 'resetPass';
   static const String or = 'or';
   static const String logWithGoogle = 'logWithGoogle';
   static const String onboardingTitle1 = 'onboardingTitle1';
@@ -23,4 +23,12 @@ abstract final class StringsManger {
   static const String onboardingDesc1 = 'onboardingDesc1';
   static const String onboardingDesc2 = 'onboardingDesc2';
   static const String onboardingDesc3 = 'onboardingDesc3';
+  static const String ok = 'ok';
+  static const String weakPass = 'weakPass';
+  static const String accExist = 'accExist';
+  static const String noUserAcc = 'noUserAcc';
+  static const String wrongPass = 'wrongPass';
+  static const String resetLinkSent = 'resetLinkSent';
+  static const String loginSuccess = 'loginSuccess';
+  static const String registerSuccess = 'registerSuccess';
 }
