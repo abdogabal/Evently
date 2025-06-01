@@ -30,6 +30,10 @@
   "wrongPass": "Wrong password provided for that user",
   "success": "Success",
   "resetLinkSent": "Link Sent Successfully",
-  "loginSuccess": "Logged in successfully",
-  "registerSuccess": "Account created successfully"
+  "empty": "Should not be empty",
+  "age": "age",
+  "male":"Male",
+  "female": "Female",
+  "genderHint": "Select your gender"
+
 }

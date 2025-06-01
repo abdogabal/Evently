@@ -7,7 +7,7 @@ abstract final class AssetsManger {
   static const String mangerDesk = 'assets/images/manager-desk.png';
   static const String socialMedia = 'assets/images/social-media.png';
   static const String hotTrending = 'assets/images/hot-trending.png';
-  static const String  wireframe= 'assets/images/wireframe_dark.png';
+  static const String wireframe = 'assets/images/wireframe_dark.png';
   static const String uploading = 'assets/images/uploading_dark.png';
   static const String eg = 'assets/svg/EG.svg';
   static const String us = 'assets/svg/US.svg';
@@ -18,4 +18,17 @@ abstract final class AssetsManger {
   static const String lock = 'assets/svg/lock.svg';
   static const String forgetPass = 'assets/images/Forget_password.png';
   static const String gLogo = 'assets/images/G_logo.png';
+  static const String male = 'assets/svg/male.svg';
+  static const String female = 'assets/svg/female.svg';
+  static const String home = 'assets/svg/Home.svg';
+  static const String user = 'assets/svg/User.svg';
+  static const String heart = 'assets/svg/Heart.svg';
+  static const String map = 'assets/svg/Map_Pin.svg';
+  static const String selectHome = 'assets/svg/Home_selected.svg';
+  static const String selectUser = 'assets/svg/User_selected.svg';
+  static const String selectHeart = 'assets/svg/Heart_selected.svg';
+  static const String selectMap = 'assets/svg/Map_Pin_selected.svg';
+  static const String sport = 'assets/images/Sport.png';
+  static const String bookClub = 'assets/images/BookClub.png';
+  static const String birthday = 'assets/images/Birthday.png';
 }

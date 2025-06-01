@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:evently/Core/DialogUtils.dart';
+import 'package:evently/Core/FirestoreHandler.dart';
 import 'package:evently/Core/resources/Constants.dart';
 import 'package:evently/Core/Reusable_Component/CustomButton.dart';
 import 'package:evently/Core/Reusable_Component/CustomTextField.dart';
@@ -9,7 +10,10 @@ import 'package:evently/Core/resources/StringsManger.dart';
 import 'package:evently/UI/Login/Screens/Login_Screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:evently/Models/User.dart' as MyUser;
+import 'package:provider/provider.dart';
+import '../../../Providers/UserProvider.dart';
 import '../../Home/Screens/HomeScreen.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -26,7 +30,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
   late TextEditingController emailController;
   late TextEditingController passController;
   late TextEditingController repassController;
+  late TextEditingController ageController;
+  late TextEditingController ganderController;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  String selectedGender = "male";
 
   @override
   void initState() {
@@ -35,6 +42,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
     emailController = TextEditingController();
     passController = TextEditingController();
     repassController = TextEditingController();
+    ageController = TextEditingController();
+    ganderController = TextEditingController();
   }
 
   @override
@@ -45,6 +54,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
     emailController.dispose();
     passController.dispose();
     repassController.dispose();
+    ageController.dispose();
+    ganderController.dispose();
   }
 
   @override
@@ -65,7 +76,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   CustomTextField(
                     validate: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Should not be empty';
+                        return StringsManger.empty.tr();
                       }
                       return null;
                     },
@@ -78,7 +89,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   CustomTextField(
                     validate: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Should not be empty';
+                        return StringsManger.empty.tr();
                       } else if (!RegExp(emailRegex).hasMatch(value)) {
                         return 'Email not valid';
                       }
@@ -93,7 +104,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   CustomTextField(
                     validate: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Should not be empty';
+                        return StringsManger.empty.tr();
                       } else if (value.length < 8) {
                         return 'Password must be at least 8 character';
                       }
@@ -110,9 +121,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     keyboardType: TextInputType.visiblePassword,
                     validate: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Should not be empty';
-                      } else if (value.length < 8) {
-                        return 'Password must be at least 8 character';
+                        return StringsManger.empty.tr();
                       } else if (value != passController.text) {
                         return 'Not same as password';
                       }
@@ -122,6 +131,91 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     hint: StringsManger.rePass.tr(),
                     prefixIcon: AssetsManger.lock,
                     obscure: true,
+                  ),
+                  SizedBox(height: 16),
+                  CustomTextField(
+                    keyboardType: TextInputType.number,
+                    validate: (value) {
+                      if (value == null || value.isEmpty) {
+                        return StringsManger.empty.tr();
+                      }
+                      return null;
+                    },
+                    controller: ageController,
+                    hint: StringsManger.age.tr(),
+                    prefixIcon: AssetsManger.person,
+                  ),
+                  SizedBox(height: 16),
+                  DropdownButtonFormField<String>(
+                    value: "male",
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return StringsManger.empty.tr();
+                      }
+                      return null;
+                    },
+                    decoration: InputDecoration(
+                      hintText: StringsManger.genderHint.tr(),
+                      hintStyle: Theme.of(context).textTheme.titleSmall,
+
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(16),
+                        borderSide: BorderSide(color: ColorManger.grey),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(16),
+                        borderSide: BorderSide(color: ColorManger.grey),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(16),
+                        borderSide: BorderSide(color: ColorManger.red),
+                      ),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(16),
+                        borderSide: BorderSide(color: ColorManger.red),
+                      ),
+                    ),
+                    items: [
+                      DropdownMenuItem<String>(
+                        value: "male",
+                        child: Row(
+                          children: [
+                            SvgPicture.asset(
+                              AssetsManger.male,
+                              height: 24,
+                              width: 24,
+                              colorFilter: ColorFilter.mode(
+                                ColorManger.blue,
+                                BlendMode.srcIn,
+                              ),
+                            ),
+                            SizedBox(width: 10),
+                            Text(StringsManger.male.tr()),
+                          ],
+                        ),
+                      ),
+                      DropdownMenuItem<String>(
+                        value: 'female',
+                        child: Row(
+                          children: [
+                            SvgPicture.asset(
+                              AssetsManger.female,
+                              height: 24,
+                              width: 24,
+                              colorFilter: ColorFilter.mode(
+                                ColorManger.blue,
+                                BlendMode.srcIn,
+                              ),
+                            ),
+                            SizedBox(width: 10),
+                            Text(StringsManger.female.tr()),
+                          ],
+                        ),
+                      ),
+                    ],
+                    onChanged: (value) {
+                      selectedGender = value!;
+                    },
                   ),
                   SizedBox(height: 16),
 
@@ -173,6 +267,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   signup() async {
+    UserProvider provider =Provider.of<UserProvider>(context,listen: false);
     try {
       DialogUtils.showLoading(context);
       UserCredential credential = await FirebaseAuth.instance
@@ -180,6 +275,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
             email: emailController.text,
             password: passController.text,
           );
+      await FirestoreHandler.addUser(MyUser.User(
+        id: credential.user?.uid,
+        name: nameController.text,
+        age: int.parse(ageController.text),
+        email: emailController.text,
+        gender: selectedGender,
+      ));
+      MyUser.User? myUser= await FirestoreHandler.getUser(credential.user?.uid??"");
+      provider.saveUser(myUser);
       Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
       Navigator.pop(context);
@@ -192,7 +296,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
             Navigator.pop(context);
           },
         );
-        DialogUtils.showSnackBar(context, StringsManger.registerSuccess.tr());
         Navigator.pushNamedAndRemoveUntil(
           context,
           HomeScreen.routeName,

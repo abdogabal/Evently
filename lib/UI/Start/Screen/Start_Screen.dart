@@ -120,7 +120,10 @@ class _StartScreenState extends State<StartScreen> {
             CustomButton(
               title: StringsManger.begin.tr(),
               onClick: () {
-                Navigator.pushNamed(context, OnboardingScreen.routeName);
+                Navigator.pushNamed(context,PrefsManager.onboardingActive()
+                    ? OnboardingScreen.routeName
+                    :LoginScreen.routeName
+                );
               },
             ),
           ],

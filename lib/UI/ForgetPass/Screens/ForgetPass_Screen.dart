@@ -55,7 +55,7 @@ class _ForgetPassScreenState extends State<ForgetPassScreen> {
                   CustomTextField(
                     validate: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Should not be empty';
+                        return StringsManger.empty.tr();
                       } else if (!RegExp(emailRegex).hasMatch(value)) {
                         return 'Email not valid';
                       }

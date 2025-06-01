@@ -2,10 +2,12 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:evently/Core/PrefsManager.dart';
 import 'package:evently/Core/resources/AppStyle.dart';
 import 'package:evently/Providers/ThemeProvider.dart';
+import 'package:evently/Providers/UserProvider.dart';
 import 'package:evently/UI/ForgetPass/Screens/ForgetPass_Screen.dart';
 import 'package:evently/UI/Home/Screens/HomeScreen.dart';
 import 'package:evently/UI/Register/Screens/Register_Screen.dart';
 import 'package:evently/UI/splash/screen/splash_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -18,9 +20,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   await PrefsManager.init();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(
     EasyLocalization(
       supportedLocales: [Locale('en'), Locale('ar')],
@@ -28,8 +28,11 @@ void main() async {
       saveLocale: true,
       startLocale: Locale('en'),
       fallbackLocale: Locale('en'),
-      child: ChangeNotifierProvider(
-        create: (context) => ThemeProviders()..init(),
+      child: MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (context) => ThemeProviders()..init(),),
+          ChangeNotifierProvider(create: (context) => UserProvider(),)
+        ],
         child: MyApp(),
       ),
     ),
@@ -58,9 +61,9 @@ class MyApp extends StatelessWidget {
         LoginScreen.routeName: (_) => LoginScreen(),
         ForgetPassScreen.routeName: (_) => ForgetPassScreen(),
         OnboardingScreen.routeName: (_) => OnboardingScreen(),
-        HomeScreen.routeName:(_)=>HomeScreen(),
+        HomeScreen.routeName: (_) => HomeScreen(),
       },
-      initialRoute: SplashScreen.routeName,
+      initialRoute:SplashScreen.routeName
     );
   }
 }

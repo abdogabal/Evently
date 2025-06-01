@@ -3,8 +3,11 @@ import 'dart:async';
 import 'package:evently/Core/resources/AssetsManger.dart';
 import 'package:evently/Core/resources/ColorManger.dart';
 import 'package:evently/UI/Start/Screen/Start_Screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+
+import '../../Home/Screens/HomeScreen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -20,7 +23,11 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Timer(Duration(seconds: 2), () {
-      Navigator.of(context).pushReplacementNamed(StartScreen.routeName);
+      Navigator.of(context).pushReplacementNamed(
+        FirebaseAuth.instance.currentUser != null
+            ? HomeScreen.routeName
+            : StartScreen.routeName,
+      );
     });
   }
 

@@ -5,6 +5,31 @@ import 'ColorManger.dart';
 class AppStyle {
   static ThemeMode themeMode = ThemeMode.light;
   static ThemeData lightTheme = ThemeData(
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+      backgroundColor: ColorManger.blue,
+      shape: StadiumBorder(
+        side:BorderSide(
+          color: ColorManger.white,
+          width: 4
+        )
+      ),
+    ),
+    bottomNavigationBarTheme: BottomNavigationBarThemeData(
+      backgroundColor: ColorManger.blue,
+      type: BottomNavigationBarType.fixed,
+      selectedItemColor: ColorManger.white,
+      unselectedItemColor: ColorManger.white,
+      selectedLabelStyle: TextStyle(
+        fontWeight: FontWeight.w700,
+        color: ColorManger.white,
+        fontSize: 12,
+      ),
+      unselectedLabelStyle: TextStyle(
+        fontWeight: FontWeight.w700,
+        color: ColorManger.white,
+        fontSize: 12,
+      ),
+    ),
     appBarTheme: AppBarTheme(
       centerTitle: true,
       backgroundColor: Colors.transparent,
@@ -25,6 +50,7 @@ class AppStyle {
       onPrimary: Colors.white,
       onPrimaryContainer: ColorManger.grey,
       onSecondary: Colors.black,
+      onTertiary: ColorManger.white,
     ),
 
     textTheme: TextTheme(
@@ -54,6 +80,31 @@ class AppStyle {
     scaffoldBackgroundColor: ColorManger.lightBackground,
   );
   static ThemeData darkTheme = ThemeData(
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+      backgroundColor: ColorManger.darkBackground,
+      shape: StadiumBorder(
+          side:BorderSide(
+              color: ColorManger.white,
+              width: 4
+          )
+      ),
+    ),
+    bottomNavigationBarTheme: BottomNavigationBarThemeData(
+      backgroundColor: ColorManger.darkBackground,
+      type: BottomNavigationBarType.fixed,
+      selectedItemColor: ColorManger.white,
+      unselectedItemColor: ColorManger.white,
+      selectedLabelStyle: TextStyle(
+        fontWeight: FontWeight.w700,
+        color: ColorManger.white,
+        fontSize: 12,
+      ),
+      unselectedLabelStyle: TextStyle(
+        fontWeight: FontWeight.w700,
+        color: ColorManger.white,
+        fontSize: 12,
+      ),
+    ),
     appBarTheme: AppBarTheme(
       shadowColor: Colors.transparent,
       centerTitle: true,
@@ -72,7 +123,8 @@ class AppStyle {
       tertiary: ColorManger.red,
       onPrimary: Colors.black,
       onPrimaryContainer: ColorManger.white,
-      onSecondary: Colors.white,
+      onSecondary: ColorManger.white,
+      onTertiary: ColorManger.darkBackground,
     ),
 
     useMaterial3: true,

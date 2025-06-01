@@ -1,18 +1,21 @@
 import 'dart:ffi';
 
 import 'package:easy_localization/easy_localization.dart';
+import 'package:evently/Core/FirestoreHandler.dart';
 import 'package:evently/Core/resources/Constants.dart';
 import 'package:evently/Core/Reusable_Component/CustomButton.dart';
 import 'package:evently/Core/Reusable_Component/CustomTextField.dart';
 import 'package:evently/Core/resources/AssetsManger.dart';
 import 'package:evently/Core/resources/ColorManger.dart';
 import 'package:evently/Core/resources/StringsManger.dart';
+import 'package:evently/Providers/UserProvider.dart';
 import 'package:evently/UI/ForgetPass/Screens/ForgetPass_Screen.dart';
 import 'package:evently/UI/Home/Screens/HomeScreen.dart';
 import 'package:evently/UI/Register/Screens/Register_Screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
+import 'package:evently/Models/User.dart' as MyUser;
+import 'package:provider/provider.dart';
 import '../../../Core/DialogUtils.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -60,7 +63,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   CustomTextField(
                     validate: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Should not be empty';
+                        return StringsManger.empty.tr();
                       } else if (!RegExp(emailRegex).hasMatch(value)) {
                         return 'Email not valid';
                       }
@@ -75,7 +78,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   CustomTextField(
                     validate: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Should not be empty';
+                        return StringsManger.empty.tr();
                       } else if (value.length < 8) {
                         return 'Password must be at least 8 character';
                       }
@@ -218,6 +221,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   login() async {
+    UserProvider provider =Provider.of<UserProvider>(context,listen: false);
     try {
       DialogUtils.showLoading(context);
       UserCredential credential = await FirebaseAuth.instance
@@ -225,8 +229,9 @@ class _LoginScreenState extends State<LoginScreen> {
             email: emailController.text,
             password: passController.text,
           );
+     MyUser.User? myUser= await FirestoreHandler.getUser(credential.user?.uid??"");
+     provider.saveUser(myUser);
       Navigator.pop(context);
-      DialogUtils.showSnackBar(context, StringsManger.loginSuccess.tr());
       Navigator.pushNamedAndRemoveUntil(
         context,
         HomeScreen.routeName,

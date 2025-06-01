@@ -29,6 +29,10 @@ abstract final class StringsManger {
   static const String noUserAcc = 'noUserAcc';
   static const String wrongPass = 'wrongPass';
   static const String resetLinkSent = 'resetLinkSent';
-  static const String loginSuccess = 'loginSuccess';
-  static const String registerSuccess = 'registerSuccess';
+  static const String age = 'age';
+  static const String gender = 'gender';
+  static const String male = 'male';
+  static const String female = 'Female';
+  static const String empty = 'empty';
+  static const String genderHint = 'genderHint';
 }
