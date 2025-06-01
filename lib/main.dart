@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:evently/Core/PrefsManager.dart';
 import 'package:evently/Core/resources/AppStyle.dart';
+import 'package:evently/Providers/MapsProvider.dart';
 import 'package:evently/Providers/ThemeProvider.dart';
 import 'package:evently/Providers/UserProvider.dart';
 import 'package:evently/UI/ForgetPass/Screens/ForgetPass_Screen.dart';
@@ -31,7 +32,10 @@ void main() async {
       child: MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (context) => ThemeProviders()..init(),),
-          ChangeNotifierProvider(create: (context) => UserProvider(),)
+          ChangeNotifierProvider(create: (context) => UserProvider(),),
+          ChangeNotifierProvider(create: (context) => MapsProvider(),
+
+          )
         ],
         child: MyApp(),
       ),

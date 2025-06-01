@@ -5,9 +5,15 @@ import 'package:evently/Core/resources/ColorManger.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class EventItems extends StatelessWidget {
-  const EventItems({super.key});
+class EventItems extends StatefulWidget {
+  EventItems({super.key});
 
+  @override
+  State<EventItems> createState() => _EventItemsState();
+}
+
+class _EventItemsState extends State<EventItems> {
+  bool love = false;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -28,7 +34,7 @@ class EventItems extends StatelessWidget {
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
-                color:Theme.of(context).colorScheme.onTertiary,
+                color: Theme.of(context).colorScheme.onTertiary,
               ),
               padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
               child: Column(
@@ -38,16 +44,16 @@ class EventItems extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w700,
-                      color: Theme.of(context).colorScheme.primary
-                    )
+                      color: Theme.of(context).colorScheme.primary,
                     ),
+                  ),
                   Text(
                     'Nov',
-                    style:  TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w700,
-                        color: Theme.of(context).colorScheme.primary
-                    )
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w700,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
                   ),
                 ],
               ),
@@ -55,7 +61,7 @@ class EventItems extends StatelessWidget {
           ),
 
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 8,vertical: 10),
+            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 10),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
               color: Theme.of(context).colorScheme.onTertiary,
@@ -63,22 +69,28 @@ class EventItems extends StatelessWidget {
             width: double.infinity,
             child: Row(
               children: [
-
                 Expanded(
                   child: Text(
                     'This is a Birthday Party',
-                    style:  TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w700,
-                        color: Theme.of(context).colorScheme.onSecondary
-                    )
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w700,
+                      color: Theme.of(context).colorScheme.onSecondary,
+                    ),
                   ),
                 ),
-                SvgPicture.asset(
-                  AssetsManger.heart,
-                  colorFilter: ColorFilter.mode(
-                    ColorManger.blue,
-                    BlendMode.srcIn,
+                InkWell(
+                  onTap: () {
+                    setState(() {
+                      love = !love;
+                    });
+                  },
+                  child: SvgPicture.asset(
+                    love ? AssetsManger.selectHeart : AssetsManger.heart,
+                    colorFilter: ColorFilter.mode(
+                      ColorManger.blue,
+                      BlendMode.srcIn,
+                    ),
                   ),
                 ),
               ],

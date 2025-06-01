@@ -11,6 +11,7 @@ import 'package:evently/Models/User.dart' as MyUser;
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
+import '../../../Providers/MapsProvider.dart';
 import '../../../Providers/UserProvider.dart';
 import '../../Login/Screens/Login_Screen.dart';
 
@@ -51,6 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    MapsProvider mapsProvider= Provider.of<MapsProvider>(context);
     UserProvider provider = Provider.of<UserProvider>(context);
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -104,7 +106,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-
       body:tabs[selectedTap],
     );
   }
