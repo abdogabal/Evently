@@ -6,6 +6,8 @@ import 'package:evently/Core/resources/AppStyle.dart';
 import 'package:evently/Core/resources/AssetsManger.dart';
 import 'package:evently/Core/resources/StringsManger.dart';
 import 'package:evently/Providers/ThemeProvider.dart';
+import 'package:evently/UI/Login/Screens/Login_Screen.dart';
+import 'package:evently/UI/Onboarding/Screens/Onboarding_Screens.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -23,9 +25,11 @@ class _StartScreenState extends State<StartScreen> {
 
   @override
   Widget build(BuildContext context) {
-    ThemeProviders provider=Provider.of<ThemeProviders>(context);
-    PrefsManager.getTheme()?selectedTheme=1:selectedTheme=0;
-    context.locale.toString()=='ar'?selectedLanguage=1:selectedLanguage=0;
+    ThemeProviders provider = Provider.of<ThemeProviders>(context);
+    PrefsManager.getTheme() ? selectedTheme = 1 : selectedTheme = 0;
+    context.locale.toString() == 'ar'
+        ? selectedLanguage = 1
+        : selectedLanguage = 0;
     return Scaffold(
       appBar: AppBar(
         title: Image.asset(AssetsManger.logoBar, height: 50, width: 150),
@@ -71,9 +75,9 @@ class _StartScreenState extends State<StartScreen> {
                   onChange: (value) {
                     setState(() {
                       selectedLanguage = value;
-                      if(selectedLanguage==1){
+                      if (selectedLanguage == 1) {
                         context.setLocale(Locale('ar'));
-                      }else{
+                      } else {
                         context.setLocale(Locale('en'));
                       }
                     });
@@ -100,24 +104,28 @@ class _StartScreenState extends State<StartScreen> {
                   onChange: (value) {
                     setState(() {
                       selectedTheme = value;
-                      if(selectedTheme == 1){
+                      if (selectedTheme == 1) {
                         PrefsManager.setTheme(true);
                         provider.changeTheme(ThemeMode.dark);
-                      }else{
+                      } else {
                         PrefsManager.setTheme(false);
                         provider.changeTheme(ThemeMode.light);
-
                       }
-
                     });
                   },
                 ),
               ],
             ),
             SizedBox(height: 28),
-            CustomButton(title: StringsManger.begin.tr(), onClick: (){
-
-            }),
+            CustomButton(
+              title: StringsManger.begin.tr(),
+              onClick: () {
+                Navigator.pushNamed(context,PrefsManager.onboardingActive()
+                    ? OnboardingScreen.routeName
+                    :LoginScreen.routeName
+                );
+              },
+            ),
           ],
         ),
       ),

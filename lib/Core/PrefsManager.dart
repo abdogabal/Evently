@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class PrefsManager {
+  class PrefsManager {
   static late SharedPreferences prefs;
 
   static init() async {
@@ -12,5 +12,12 @@ class PrefsManager {
   }
   static bool getTheme(){
     return prefs.getBool('theme')??false;
+  }
+  static onboardingFirstTime() {
+    prefs.setBool('FirstTime', false);
+  }
+
+  static bool onboardingActive() {
+    return prefs.getBool('FirstTime') ?? true;
   }
 }
