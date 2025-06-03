@@ -1,6 +1,7 @@
 import 'package:evently/Core/FirestoreHandler.dart';
 import 'package:evently/Core/resources/AssetsManger.dart';
 import 'package:evently/Core/resources/ColorManger.dart';
+import 'package:evently/Core/resources/StringsManger.dart';
 import 'package:evently/UI/Home/Taps/HomeTab/HomeTab.dart';
 import 'package:evently/UI/Home/Taps/LoveTab/LoveTab.dart';
 import 'package:evently/UI/Home/Taps/MapTab/MapTab.dart';
@@ -9,10 +10,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:evently/Models/User.dart' as MyUser;
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:location/location.dart';
 import 'package:provider/provider.dart';
 
 import '../../../Providers/MapsProvider.dart';
 import '../../../Providers/UserProvider.dart';
+import '../../CreateEvent/Screen/CreateEventScreen.dart';
 import '../../Login/Screens/Login_Screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -26,12 +29,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int selectedTap = 0;
-  List<Widget>tabs = [
-    HomeTap(),
-    MapTab(),
-    LoveTab(),
-    ProfileTab()
-  ];
+  List<Widget> tabs = [HomeTap(), MapTab(), LoveTab(), ProfileTab()];
 
   @override
   void initState() {
@@ -42,6 +40,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   getFirestoreUser() async {
     UserProvider provider = Provider.of<UserProvider>(context, listen: false);
+    MapsProvider mapsProvider = Provider.of<MapsProvider>(
+      context,
+      listen: false,
+    );
     if (provider.myUser == null) {
       MyUser.User? user = await FirestoreHandler.getUser(
         FirebaseAuth.instance.currentUser?.uid ?? "",
@@ -52,13 +54,15 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    MapsProvider mapsProvider= Provider.of<MapsProvider>(context);
+    MapsProvider mapsProvider = Provider.of<MapsProvider>(context);
     UserProvider provider = Provider.of<UserProvider>(context);
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: Icon(Icons.add, color: ColorManger.white, size: 40,),
+        onPressed: () {
+          Navigator.pushNamed(context, CreateEventScreen.routeName);
+        },
+        child: Icon(Icons.add, color: ColorManger.white, size: 40),
       ),
       bottomNavigationBar: BottomNavigationBar(
         onTap: (value) {
@@ -69,7 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
         currentIndex: selectedTap,
         items: [
           BottomNavigationBarItem(
-            label: 'Home',
+            label: StringsManger.home,
             icon: SvgPicture.asset(AssetsManger.home, width: 24, height: 24),
             activeIcon: SvgPicture.asset(
               AssetsManger.selectHome,
@@ -78,7 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           BottomNavigationBarItem(
-            label: 'Map',
+            label: StringsManger.map,
             icon: SvgPicture.asset(AssetsManger.map, width: 24, height: 24),
             activeIcon: SvgPicture.asset(
               AssetsManger.selectMap,
@@ -87,7 +91,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           BottomNavigationBarItem(
-            label: 'Love',
+            label: StringsManger.love,
             icon: SvgPicture.asset(AssetsManger.heart, width: 24, height: 24),
             activeIcon: SvgPicture.asset(
               AssetsManger.selectHeart,
@@ -96,7 +100,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           BottomNavigationBarItem(
-            label: 'Profile',
+            label: StringsManger.profile,
             icon: SvgPicture.asset(AssetsManger.user, width: 24, height: 24),
             activeIcon: SvgPicture.asset(
               AssetsManger.selectUser,
@@ -106,7 +110,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      body:tabs[selectedTap],
+      body: tabs[selectedTap],
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:geocoding/geocoding.dart' as geo;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 
@@ -11,10 +12,10 @@ class MapsProvider extends ChangeNotifier {
   );
   Set<Marker> markers = {};
 
-  // MapsProvider() {
-  //   getLocation();
-  //   setLocationListener();
-  // }
+  //MapsProvider() {
+    //getLocation();
+    //   setLocationListener();
+  //}
 
   Future<bool> _getLocationPermission() async {
     PermissionStatus permissionStatus;
@@ -47,7 +48,6 @@ class MapsProvider extends ChangeNotifier {
 
     notifyListeners();
   }
-
   changeLocationOnMap(LocationData locationData) {
     cameraPosition = CameraPosition(
       target: LatLng(locationData.latitude ?? 0, locationData.longitude ?? 0),
@@ -70,12 +70,15 @@ class MapsProvider extends ChangeNotifier {
   }
 
   setLocationListener() {
-    location.changeSettings(
-      accuracy: LocationAccuracy.high,
-      interval: 1000,
-    );
+    location.changeSettings(accuracy: LocationAccuracy.high, interval: 1000);
     location.onLocationChanged.listen((LocationData currentLocation) {
       changeLocationOnMap(currentLocation);
       notifyListeners();
-    });}
+    });
   }
+  static geo.Placemark? placeMark;
+  savePlaceMark(geo.Placemark userPlaceMark){
+    placeMark=userPlaceMark;
+    notifyListeners();
+  }
+}

@@ -27,4 +27,5 @@ class FirestoreHandler {
     var snapshot =await document.get();
     return snapshot.data();
   }
+
 }

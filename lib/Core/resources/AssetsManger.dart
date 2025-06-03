@@ -31,4 +31,11 @@ abstract final class AssetsManger {
   static const String sport = 'assets/images/Sport.png';
   static const String bookClub = 'assets/images/BookClub.png';
   static const String birthday = 'assets/images/Birthday.png';
+  static const String compass = 'assets/svg/Compass.svg';
+  static const String cake = 'assets/svg/cake.svg';
+  static const String book = 'assets/svg/book-open.svg';
+  static const String bike = 'assets/svg/bike.svg';
+  static const String noteEdit = 'assets/svg/Note_Edit.svg';
+  static const String calender = 'assets/svg/Calendar.svg';
+  static const String clock = 'assets/svg/Clock.svg';
 }

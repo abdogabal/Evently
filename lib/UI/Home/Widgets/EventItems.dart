@@ -14,6 +14,7 @@ class EventItems extends StatefulWidget {
 
 class _EventItemsState extends State<EventItems> {
   bool love = false;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -21,6 +22,7 @@ class _EventItemsState extends State<EventItems> {
       height: 200,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: Theme.of(context).colorScheme.primary),
         image: DecorationImage(
           image: AssetImage(AssetsManger.sport),
           fit: BoxFit.fill,

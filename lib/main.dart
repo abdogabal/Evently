@@ -12,6 +12,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'UI/CreateEvent/Screen/CreateEventScreen.dart';
 import 'UI/Login/Screens/Login_Screen.dart';
 import 'UI/Onboarding/Screens/Onboarding_Screens.dart';
 import 'UI/Start/Screen/Start_Screen.dart';
@@ -66,6 +67,7 @@ class MyApp extends StatelessWidget {
         ForgetPassScreen.routeName: (_) => ForgetPassScreen(),
         OnboardingScreen.routeName: (_) => OnboardingScreen(),
         HomeScreen.routeName: (_) => HomeScreen(),
+        CreateEventScreen.routeName: (_) => CreateEventScreen(),
       },
       initialRoute:SplashScreen.routeName
     );
