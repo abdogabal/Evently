@@ -76,7 +76,7 @@ class MapsProvider extends ChangeNotifier {
       notifyListeners();
     });
   }
-  static geo.Placemark? placeMark;
+   geo.Placemark? placeMark;
   savePlaceMark(geo.Placemark userPlaceMark){
     placeMark=userPlaceMark;
     notifyListeners();

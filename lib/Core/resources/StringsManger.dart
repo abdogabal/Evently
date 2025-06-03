@@ -53,8 +53,13 @@ abstract final class StringsManger {
   static const String eventDate = 'eventDate';
   static const String eventTime = 'eventTime';
   static const String chooseTime = 'chooseTime';
+  static const String chooseEventTime = 'chooseEventTime';
   static const String chooseDate = 'chooseDate';
+  static const String chooseEventDate = 'chooseEventDate';
   static const String location = 'location';
   static const String eventLocation = 'eventLocation';
   static const String addEvent = 'addEvent';
+  static const String addEventSuccess = 'addEvenSuccess';
+  static const String tryAgain = 'tryAgain';
+  static const String noEvent = 'noEvent';
 }

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:evently/Core/FirestoreHandler.dart';
 import 'package:evently/Core/resources/AssetsManger.dart';
 import 'package:evently/Core/resources/ColorManger.dart';
@@ -73,7 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
         currentIndex: selectedTap,
         items: [
           BottomNavigationBarItem(
-            label: StringsManger.home,
+            label: StringsManger.home.tr(),
             icon: SvgPicture.asset(AssetsManger.home, width: 24, height: 24),
             activeIcon: SvgPicture.asset(
               AssetsManger.selectHome,
@@ -82,7 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           BottomNavigationBarItem(
-            label: StringsManger.map,
+            label: StringsManger.map.tr(),
             icon: SvgPicture.asset(AssetsManger.map, width: 24, height: 24),
             activeIcon: SvgPicture.asset(
               AssetsManger.selectMap,
@@ -91,7 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           BottomNavigationBarItem(
-            label: StringsManger.love,
+            label: StringsManger.love.tr(),
             icon: SvgPicture.asset(AssetsManger.heart, width: 24, height: 24),
             activeIcon: SvgPicture.asset(
               AssetsManger.selectHeart,
@@ -100,7 +101,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           BottomNavigationBarItem(
-            label: StringsManger.profile,
+            label: StringsManger.profile.tr(),
             icon: SvgPicture.asset(AssetsManger.user, width: 24, height: 24),
             activeIcon: SvgPicture.asset(
               AssetsManger.selectUser,

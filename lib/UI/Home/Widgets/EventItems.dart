@@ -1,12 +1,16 @@
 import 'dart:ffi';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:evently/Core/resources/AssetsManger.dart';
 import 'package:evently/Core/resources/ColorManger.dart';
+import 'package:evently/Models/Event.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class EventItems extends StatefulWidget {
-  EventItems({super.key});
+  final Event event;
+
+   EventItems(this.event, {super.key});
 
   @override
   State<EventItems> createState() => _EventItemsState();
@@ -24,7 +28,7 @@ class _EventItemsState extends State<EventItems> {
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: Theme.of(context).colorScheme.primary),
         image: DecorationImage(
-          image: AssetImage(AssetsManger.sport),
+          image: AssetImage(checkEventImage()),
           fit: BoxFit.fill,
         ),
       ),
@@ -42,7 +46,7 @@ class _EventItemsState extends State<EventItems> {
               child: Column(
                 children: [
                   Text(
-                    '7',
+                    DateFormat.d().format(widget.event.date!.toDate()),
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w700,
@@ -50,7 +54,7 @@ class _EventItemsState extends State<EventItems> {
                     ),
                   ),
                   Text(
-                    'Nov',
+                    DateFormat.MMM().format(widget.event.date!.toDate()),
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w700,
@@ -73,7 +77,7 @@ class _EventItemsState extends State<EventItems> {
               children: [
                 Expanded(
                   child: Text(
-                    'This is a Birthday Party',
+                    widget.event.title!,
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w700,
@@ -83,9 +87,10 @@ class _EventItemsState extends State<EventItems> {
                 ),
                 InkWell(
                   onTap: () {
-                    setState(() {
-                      love = !love;
-                    });
+
+                      setState(() {
+                        love = !love;
+                      });
                   },
                   child: SvgPicture.asset(
                     love ? AssetsManger.selectHeart : AssetsManger.heart,
@@ -101,5 +106,15 @@ class _EventItemsState extends State<EventItems> {
         ],
       ),
     );
+  }
+
+  String checkEventImage() {
+    if (widget.event.type == 'sport') {
+      return AssetsManger.sport;
+    } else if (widget.event.type == 'book') {
+      return AssetsManger.bookClub;
+    } else {
+      return AssetsManger.birthday;
+    }
   }
 }

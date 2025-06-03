@@ -94,7 +94,7 @@ class _ForgetPassScreenState extends State<ForgetPassScreen> {
         email: emailController.text,
       );
       Navigator.pop(context);
-      DialogUtils.showSnackBar(context, StringsManger.resetLinkSent.tr());
+      DialogUtils.showSnackBar( StringsManger.resetLinkSent.tr());
     } on FirebaseAuthException catch (e) {
       Navigator.pop(context);
       if (e.code == "user-not-found") {

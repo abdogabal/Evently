@@ -170,7 +170,7 @@ class _HomeTapState extends State<HomeTap> {
                   Row(
                     children: [
                       SvgPicture.asset(AssetsManger.map),
-                      MapsProvider.placeMark?.name == null
+                      mapsProvider.placeMark?.name == null
                           ? Center(
                             child: CircularProgressIndicator(
                               color: ColorManger.white,
@@ -183,7 +183,7 @@ class _HomeTapState extends State<HomeTap> {
                             ),
                           )
                           : Text(
-                            '${MapsProvider.placeMark?.name} , ${MapsProvider.placeMark?.country}',
+                            '${mapsProvider.placeMark?.name} , ${mapsProvider.placeMark?.country}',
                             style: Theme.of(
                               context,
                             ).textTheme.labelSmall?.copyWith(
@@ -241,7 +241,7 @@ class _HomeTapState extends State<HomeTap> {
                                 ),
                               ),
                               SizedBox(width: 8),
-                              Text(StringsManger.all),
+                              Text(StringsManger.all.tr()),
                             ],
                           ),
                         ),
@@ -275,7 +275,7 @@ class _HomeTapState extends State<HomeTap> {
                                 ),
                               ),
                               SizedBox(width: 8),
-                              Text(StringsManger.sport),
+                              Text(StringsManger.sport.tr()),
                             ],
                           ),
                         ),
@@ -309,7 +309,7 @@ class _HomeTapState extends State<HomeTap> {
                                 ),
                               ),
                               SizedBox(width: 8),
-                              Text(StringsManger.birthday),
+                              Text(StringsManger.birthday.tr()),
                             ],
                           ),
                         ),
@@ -343,7 +343,7 @@ class _HomeTapState extends State<HomeTap> {
                                 ),
                               ),
                               SizedBox(width: 8),
-                              Text(StringsManger.bookClub),
+                              Text(StringsManger.bookClub.tr()),
                             ],
                           ),
                         ),
