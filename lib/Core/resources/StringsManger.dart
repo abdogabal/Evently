@@ -62,4 +62,7 @@ abstract final class StringsManger {
   static const String addEventSuccess = 'addEvenSuccess';
   static const String tryAgain = 'tryAgain';
   static const String noEvent = 'noEvent';
+  static const String userLocation = 'userLocation';
+  static const String eventLocations = 'eventLocations';
+  static const String tapLocation = 'tapLocation';
 }

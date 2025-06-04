@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:evently/Core/PrefsManager.dart';
 import 'package:evently/Core/resources/AppStyle.dart';
+import 'package:evently/Providers/MapPickerProvider.dart';
 import 'package:evently/Providers/MapsProvider.dart';
 import 'package:evently/Providers/ThemeProvider.dart';
 import 'package:evently/Providers/UserProvider.dart';
@@ -13,6 +14,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'UI/CreateEvent/Screen/CreateEventScreen.dart';
+import 'UI/CreateEvent/Widgets/PickLocation.dart';
 import 'UI/Login/Screens/Login_Screen.dart';
 import 'UI/Onboarding/Screens/Onboarding_Screens.dart';
 import 'UI/Start/Screen/Start_Screen.dart';
@@ -32,11 +34,10 @@ void main() async {
       fallbackLocale: Locale('en'),
       child: MultiProvider(
         providers: [
-          ChangeNotifierProvider(create: (context) => ThemeProviders()..init(),),
-          ChangeNotifierProvider(create: (context) => UserProvider(),),
-          ChangeNotifierProvider(create: (context) => MapsProvider(),
-
-          )
+          ChangeNotifierProvider(create: (context) => ThemeProviders()..init()),
+          ChangeNotifierProvider(create: (context) => UserProvider()),
+          ChangeNotifierProvider(create: (context) => MapsProvider()),
+          ChangeNotifierProvider(create: (context) => MapPickerProvider()),
         ],
         child: MyApp(),
       ),
@@ -68,8 +69,9 @@ class MyApp extends StatelessWidget {
         OnboardingScreen.routeName: (_) => OnboardingScreen(),
         HomeScreen.routeName: (_) => HomeScreen(),
         CreateEventScreen.routeName: (_) => CreateEventScreen(),
+        PickLocation.routeName: (_) => PickLocation(),
       },
-      initialRoute:SplashScreen.routeName
+      initialRoute: SplashScreen.routeName,
     );
   }
 }

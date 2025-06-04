@@ -61,5 +61,8 @@
   "addEvenSuccess": "تمت إضافة الحدث بنجاح",
   "tryAgain": "حاول مرة أخرى",
   "noEvent": "لم يتم العثور على أحداث",
-  "languageType": "AR"
+  "languageType": "AR",
+  "userLocation": "موقع المستخدم",
+  "eventLocations": "مواقع الحدث",
+  "tapLocation": "Tاضغط على الموقع لتحديده"
 }

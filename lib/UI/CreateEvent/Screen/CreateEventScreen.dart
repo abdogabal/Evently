@@ -8,11 +8,14 @@ import 'package:evently/Core/resources/AssetsManger.dart';
 import 'package:evently/Core/resources/Constants.dart';
 import 'package:evently/Core/resources/StringsManger.dart';
 import 'package:evently/Models/Event.dart';
+import 'package:evently/Providers/MapPickerProvider.dart';
+import 'package:evently/UI/CreateEvent/Widgets/PickLocation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
+import '../../../Core/Reusable_Component/CustomLocationPicker.dart';
 import '../../../Core/resources/ColorManger.dart';
 import '../../../Providers/UserProvider.dart';
 
@@ -35,8 +38,13 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
 
   @override
   void initState() {
+    MapPickerProvider mapPickerProvider = Provider.of<MapPickerProvider>(
+      context,
+      listen: false
+    );
     // TODO: implement initState
     super.initState();
+    mapPickerProvider.eventLocation=null;
     titleController = TextEditingController();
     discController = TextEditingController();
   }
@@ -51,6 +59,9 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
 
   @override
   Widget build(BuildContext context) {
+    MapPickerProvider mapPickerProvider = Provider.of<MapPickerProvider>(
+      context,
+    );
     return Scaffold(
       appBar: AppBar(
         title: Text(StringsManger.createEvent.tr()),
@@ -329,6 +340,24 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                     ],
                   ),
                   SizedBox(height: 16),
+                  Text(
+                    StringsManger.location.tr(),
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
+                  SizedBox(height: 8),
+                  Container(
+                    width: double.infinity,
+                    child: CustomLocationPicker(
+                      locations:
+                          mapPickerProvider.eventLocation == null
+                              ? StringsManger.eventLocation.tr()
+                              : '${mapPickerProvider.placeMark?.name} , ${mapPickerProvider.placeMark?.country} ',
+                      onClick: () {
+                        Navigator.pushNamed(context, PickLocation.routeName);
+                      },
+                    ),
+                  ),
+                  SizedBox(height: 16),
                   Container(
                     width: double.infinity,
                     child: CustomButton(
@@ -347,6 +376,12 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                             );
                             return;
                           }
+                          if (mapPickerProvider.eventLocation == null) {
+                            DialogUtils.showSnackBar(
+                              StringsManger.eventLocation.tr(),
+                            );
+                            return;
+                          }
                           DateTime eventDate = DateTime(
                             selectedDate!.year,
                             selectedDate!.month,
@@ -360,12 +395,11 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                               Event(
                                 title: titleController.text,
                                 description: discController.text,
-                                latitude: 0,
-                                longitude: 0,
+                                latitude: mapPickerProvider.eventLocation?.latitude??0,
+                                longitude: mapPickerProvider.eventLocation?.longitude??0,
                                 userId: FirebaseAuth.instance.currentUser?.uid,
                                 type: eventType[selectedTap],
                                 date: Timestamp.fromDate(eventDate),
-
                               ),
                             );
 
@@ -373,11 +407,13 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                             DialogUtils.showSnackBar(
                               StringsManger.addEventSuccess.tr(),
                             );
+                            mapPickerProvider.eventLocation=null;
                             Navigator.pop(context);
                           } catch (error) {
                             Navigator.pop(context);
                             DialogUtils.showSnackBar(error.toString());
                           }
+
                         }
                       },
                     ),

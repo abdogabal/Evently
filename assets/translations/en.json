@@ -61,5 +61,8 @@
   "chooseEventTime": "Choose event Time",
   "addEvenSuccess": "Event added successfully",
   "tryAgain": "Try again",
-  "noEvent": "No events Found"
+  "noEvent": "No events Found",
+  "userLocation": "User Location",
+  "eventLocations": "Event Locations",
+  "tapLocation": "Tap on Location To Select"
 }

@@ -1,9 +1,14 @@
-import 'package:flutter/widgets.dart';
+import 'dart:ffi';
+
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:geocoding/geocoding.dart' as geo;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 
-class MapsProvider extends ChangeNotifier {
+import '../Core/resources/StringsManger.dart';
+
+class MapPickerProvider extends ChangeNotifier {
   Location location = Location();
   late GoogleMapController googleMapController;
   CameraPosition cameraPosition = CameraPosition(
@@ -11,11 +16,12 @@ class MapsProvider extends ChangeNotifier {
     zoom: 14.4746,
   );
   Set<Marker> markers = {};
+  LatLng? eventLocation;
 
-  //MapsProvider() {
-  //getLocation();
-  //   setLocationListener();
-  //}
+  MapPickerProvider() {
+    getLocation();
+    //   setLocationListener();
+  }
 
   Future<bool> _getLocationPermission() async {
     PermissionStatus permissionStatus;
@@ -54,6 +60,7 @@ class MapsProvider extends ChangeNotifier {
       target: LatLng(locationData.latitude ?? 0, locationData.longitude ?? 0),
       zoom: 14.4746,
     );
+
     markers.add(
       Marker(
         markerId: MarkerId('1'),
@@ -61,7 +68,7 @@ class MapsProvider extends ChangeNotifier {
           locationData.latitude ?? 0,
           locationData.longitude ?? 0,
         ),
-        infoWindow: InfoWindow(title: 'User Location'),
+        infoWindow: InfoWindow(title: StringsManger.userLocation.tr()),
       ),
     );
     googleMapController.animateCamera(
@@ -70,36 +77,23 @@ class MapsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  setLocationListener() {
-    location.changeSettings(accuracy: LocationAccuracy.high, interval: 1000);
-    location.onLocationChanged.listen((LocationData currentLocation) {
-      changeLocationOnMap(currentLocation);
-      notifyListeners();
-    });
+  //to-do\\
+  void changeLocation(LatLng latLang) {
+    eventLocation = latLang;
+    markers.removeWhere((marker) => marker.markerId.value != '1');
+    markers.add(
+      Marker(
+        markerId: MarkerId(''),
+        position: latLang,
+        infoWindow: InfoWindow(title: StringsManger.eventLocations.tr()),
+      ),
+    );
   }
 
   geo.Placemark? placeMark;
 
   savePlaceMark(geo.Placemark userPlaceMark) {
     placeMark = userPlaceMark;
-    notifyListeners();
-  }
-
-  changeCameraPosition(double latitude, double longitude,String title) {
-    cameraPosition = CameraPosition(
-      target: LatLng(latitude ?? 0, longitude ?? 0),
-      zoom: 14.4746,
-    );
-    markers.add(
-      Marker(
-        markerId: MarkerId(UniqueKey().toString()),
-        position: LatLng(latitude ?? 0, longitude ?? 0),
-        infoWindow: InfoWindow(title: title),
-      ),
-    );
-    googleMapController.animateCamera(
-      CameraUpdate.newCameraPosition(cameraPosition),
-    );
     notifyListeners();
   }
 }
