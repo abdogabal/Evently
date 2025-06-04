@@ -13,8 +13,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'Providers/DetailsProvider.dart';
 import 'UI/CreateEvent/Screen/CreateEventScreen.dart';
 import 'UI/CreateEvent/Widgets/PickLocation.dart';
+import 'UI/DetailsScreen/Screens/DetailsScreen.dart';
 import 'UI/Login/Screens/Login_Screen.dart';
 import 'UI/Onboarding/Screens/Onboarding_Screens.dart';
 import 'UI/Start/Screen/Start_Screen.dart';
@@ -38,6 +40,7 @@ void main() async {
           ChangeNotifierProvider(create: (context) => UserProvider()),
           ChangeNotifierProvider(create: (context) => MapsProvider()),
           ChangeNotifierProvider(create: (context) => MapPickerProvider()),
+          ChangeNotifierProvider(create: (context) => DetailsProvider()),
         ],
         child: MyApp(),
       ),
@@ -70,6 +73,7 @@ class MyApp extends StatelessWidget {
         HomeScreen.routeName: (_) => HomeScreen(),
         CreateEventScreen.routeName: (_) => CreateEventScreen(),
         PickLocation.routeName: (_) => PickLocation(),
+        DetailsScreen.routeName: (_) => DetailsScreen(),
       },
       initialRoute: SplashScreen.routeName,
     );

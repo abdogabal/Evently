@@ -38,4 +38,6 @@ abstract final class AssetsManger {
   static const String noteEdit = 'assets/svg/Note_Edit.svg';
   static const String calender = 'assets/svg/Calendar.svg';
   static const String clock = 'assets/svg/Clock.svg';
+  static const String edit = 'assets/svg/Edit.svg';
+  static const String delete = 'assets/svg/delete.svg';
 }
