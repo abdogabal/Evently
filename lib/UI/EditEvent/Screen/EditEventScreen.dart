@@ -92,7 +92,7 @@ class _EditEventScreenState extends State<EditEventScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Edit Event'),
+        title: Text(StringsManger.editEvent.tr()),
         titleTextStyle: Theme.of(context).appBarTheme.titleTextStyle?.copyWith(
           color: Theme.of(context).colorScheme.primary,
         ),
@@ -347,7 +347,7 @@ class _EditEventScreenState extends State<EditEventScreen> {
                         onPressed: () async {
                           var time = await showTimePicker(
                             context: context,
-                            initialTime: TimeOfDay.now(),
+                            initialTime: selectedTime??TimeOfDay.now(),
                           );
                           if (time != null) {
                             setState(() {
@@ -390,7 +390,7 @@ class _EditEventScreenState extends State<EditEventScreen> {
                   Container(
                     width: double.infinity,
                     child: CustomButton(
-                      title: 'Update Event',
+                      title: StringsManger.updateEvent.tr(),
                       onClick: () async {
                         if (formKey.currentState!.validate()) {
                           if (selectedDate == null) {
@@ -437,10 +437,10 @@ class _EditEventScreenState extends State<EditEventScreen> {
                                 id: event.id
                               ),
                             );
-
+                            Navigator.pop(context);
                             Navigator.pop(context);
                             DialogUtils.showSnackBar(
-                              'Event edited successfully',
+                              StringsManger.editEventSuccess.tr(),
                             );
                             mapPickerProvider.eventLocation = null;
                             Navigator.pop(context);

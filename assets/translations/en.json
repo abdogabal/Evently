@@ -64,5 +64,9 @@
   "noEvent": "No events Found",
   "userLocation": "User Location",
   "eventLocations": "Event Locations",
-  "tapLocation": "Tap on Location To Select"
+  "tapLocation": "Tap on Location To Select",
+  "editEventSuccess": "Event edited successfully",
+  "updateEvent": "Update Event",
+  "editEvent": "Edit Event",
+  "eventDetails": "Event Details"
 }

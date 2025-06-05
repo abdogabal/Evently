@@ -56,7 +56,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
     event = ModalRoute.of(context)!.settings.arguments as Event;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Event Details'),
+        title: Text(StringsManger.eventDetails.tr()),
         titleTextStyle: Theme.of(context).appBarTheme.titleTextStyle?.copyWith(
           color: Theme.of(context).colorScheme.primary,
         ),

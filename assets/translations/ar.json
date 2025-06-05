@@ -64,5 +64,9 @@
   "languageType": "AR",
   "userLocation": "موقع المستخدم",
   "eventLocations": "مواقع الحدث",
-  "tapLocation": "Tاضغط على الموقع لتحديده"
+  "tapLocation": "Tاضغط على الموقع لتحديده",
+  "editEventSuccess": "تم تعديل الحدث بنجاح",
+  "updateEvent": "تحديث الحدث",
+  "editEvent": "تعديل الحدث",
+  "eventDetails": "تفاصيل الحدث"
 }
