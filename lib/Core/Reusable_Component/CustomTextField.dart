@@ -10,6 +10,7 @@ class CustomTextField extends StatefulWidget {
   String prefixIcon;
   TextInputType keyboardType;
   bool obscure;
+  int lines;
 
   CustomTextField({
     required this.validate,
@@ -18,6 +19,7 @@ class CustomTextField extends StatefulWidget {
     required this.prefixIcon,
     required this.keyboardType,
     this.obscure = false,
+    this.lines=1
   });
 
   @override
@@ -37,6 +39,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      maxLines:widget.lines,
       validator: widget.validate,
       controller: widget.controller,
       obscureText: isVisible,
@@ -63,14 +66,14 @@ class _CustomTextFieldState extends State<CustomTextField> {
           borderRadius: BorderRadius.circular(16),
           borderSide: BorderSide(color: ColorManger.red),
         ),
-        prefixIcon: SvgPicture.asset(
+        prefixIcon:widget.prefixIcon.isNotEmpty? SvgPicture.asset(
           widget.prefixIcon,
           fit: BoxFit.scaleDown,
           colorFilter: ColorFilter.mode(
             Theme.of(context).colorScheme.onPrimaryContainer,
             BlendMode.srcIn,
           ),
-        ),
+        ):null,
         suffixIcon:
             widget.obscure
                 ? IconButton(

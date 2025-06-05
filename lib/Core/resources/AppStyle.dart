@@ -8,10 +8,7 @@ class AppStyle {
     floatingActionButtonTheme: FloatingActionButtonThemeData(
       backgroundColor: ColorManger.blue,
       shape: StadiumBorder(
-        side:BorderSide(
-          color: ColorManger.white,
-          width: 4
-        )
+        side: BorderSide(color: ColorManger.white, width: 4),
       ),
     ),
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
@@ -51,6 +48,9 @@ class AppStyle {
       onPrimaryContainer: ColorManger.grey,
       onSecondary: Colors.black,
       onTertiary: ColorManger.white,
+      primaryContainer: ColorManger.blue,
+      secondaryFixed: ColorManger.blue,
+      secondaryContainer: ColorManger.white,
     ),
 
     textTheme: TextTheme(
@@ -74,6 +74,11 @@ class AppStyle {
         fontWeight: FontWeight.w500,
         color: ColorManger.grey,
       ),
+      labelSmall: TextStyle(
+        fontSize: 14,
+        fontWeight: FontWeight.w700,
+        color: ColorManger.blue,
+      ),
     ),
 
     useMaterial3: true,
@@ -83,10 +88,7 @@ class AppStyle {
     floatingActionButtonTheme: FloatingActionButtonThemeData(
       backgroundColor: ColorManger.darkBackground,
       shape: StadiumBorder(
-          side:BorderSide(
-              color: ColorManger.white,
-              width: 4
-          )
+        side: BorderSide(color: ColorManger.white, width: 4),
       ),
     ),
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
@@ -125,6 +127,9 @@ class AppStyle {
       onPrimaryContainer: ColorManger.white,
       onSecondary: ColorManger.white,
       onTertiary: ColorManger.darkBackground,
+      primaryContainer: ColorManger.darkBackground,
+      secondaryFixed: ColorManger.white,
+      secondaryContainer: ColorManger.blue,
     ),
 
     useMaterial3: true,
@@ -149,6 +154,11 @@ class AppStyle {
         fontSize: 16,
         fontWeight: FontWeight.w500,
         color: ColorManger.grey,
+      ),
+      labelSmall: TextStyle(
+        fontSize: 14,
+        fontWeight: FontWeight.w700,
+        color: ColorManger.darkBackground,
       ),
     ),
   );

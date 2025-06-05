@@ -1,6 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:evently/Core/resources/ColorManger.dart';
 import 'package:evently/Core/resources/StringsManger.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class DialogUtils {
   static showMassageDialog({
@@ -30,17 +32,14 @@ class DialogUtils {
       title: Center(child: CircularProgressIndicator(),),
     ));
   }
-  static showSnackBar(BuildContext context,String massage){
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          massage,
-          style: Theme.of(
-            context,
-          ).textTheme.bodySmall!.copyWith(color: Colors.white),
-        ),
-        backgroundColor: Theme.of(context).colorScheme.primary,
-      ),
+  static showSnackBar(String massage){
+    Fluttertoast.showToast(
+        msg: massage,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Colors.grey,
+        textColor: ColorManger.black,
+        fontSize: 16.0
     );
   }
 }

@@ -15,6 +15,7 @@ import 'package:evently/UI/Register/Screens/Register_Screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:evently/Models/User.dart' as MyUser;
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 import '../../../Core/DialogUtils.dart';
 
@@ -180,7 +181,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   Container(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        loginWithGoogle();
+                      },
                       style: ElevatedButton.styleFrom(
                         padding: EdgeInsets.symmetric(vertical: 13),
                         backgroundColor: Colors.transparent,
@@ -220,8 +223,60 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+  Future<void> loginWithGoogle() async {
+    final UserProvider provider = Provider.of<UserProvider>(context, listen: false);
+    DialogUtils.showLoading(context);
+
+    try {
+       GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+      if (googleUser == null) {
+        // User cancelled the sign-in
+        Navigator.pop(context);
+        return;
+      }
+
+      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+
+      // Create a new credential
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      // Sign in with Firebase
+      final UserCredential userCredential =
+      await FirebaseAuth.instance.signInWithCredential(credential);
+
+      // Add user to Firestore
+      await FirestoreHandler.addUser(MyUser.User(
+        id: userCredential.user?.uid ?? '', // Use Firebase UID instead of providerId
+        name: googleUser.displayName ?? '',
+        age: 0,
+        email: googleUser.email ?? '',
+        gender: 'male',
+      ));
+
+      Navigator.pop(context);
+       Navigator.pushNamedAndRemoveUntil(
+         context,
+         HomeScreen.routeName,
+             (routeName) => false,
+       );
+    } catch (e) {
+      Navigator.pop(context);
+      DialogUtils.showMassageDialog(
+        context: context,
+        massage: e.toString(),
+        posTitle: StringsManger.ok.tr(),
+        posClick: () {
+          Navigator.pop(context);
+        },
+      );
+    }
+  }
   login() async {
-    UserProvider provider =Provider.of<UserProvider>(context,listen: false);
+    UserProvider provider = Provider.of<UserProvider>(context, listen: false);
     try {
       DialogUtils.showLoading(context);
       UserCredential credential = await FirebaseAuth.instance
@@ -229,8 +284,10 @@ class _LoginScreenState extends State<LoginScreen> {
             email: emailController.text,
             password: passController.text,
           );
-     MyUser.User? myUser= await FirestoreHandler.getUser(credential.user?.uid??"");
-     provider.saveUser(myUser);
+      MyUser.User? myUser = await FirestoreHandler.getUser(
+        credential.user?.uid ?? "",
+      );
+      provider.saveUser(myUser);
       Navigator.pop(context);
       Navigator.pushNamedAndRemoveUntil(
         context,

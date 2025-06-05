@@ -1,1 +1,6 @@
 String emailRegex=r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
+List<String> eventType=[
+    'book',
+    'sport',
+    'birthday',
+];
