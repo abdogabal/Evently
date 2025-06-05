@@ -4,6 +4,7 @@ import 'package:evently/Core/DialogUtils.dart';
 import 'package:evently/Core/resources/AssetsManger.dart';
 import 'package:evently/Core/resources/StringsManger.dart';
 import 'package:evently/Models/Event.dart';
+import 'package:evently/UI/CreateEvent/Screen/CreateEventScreen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,7 @@ import 'package:provider/provider.dart';
 import '../../../Core/Reusable_Component/CustomDetials.dart';
 import '../../../Providers/DetailsProvider.dart';
 import '../../../Providers/UserProvider.dart';
+import '../../EditEvent/Screen/EditEventScreen.dart';
 
 class DetailsScreen extends StatefulWidget {
   static const String routeName = 'details';
@@ -29,10 +31,10 @@ class _DetailsScreenState extends State<DetailsScreen> {
   Future<void> deleteEvent() async {
     try {
       await FirebaseFirestore.instance
-          .collection('Event') // Replace with your collection name
-          .doc(event.id) // Assuming Event model has an 'id' field
+          .collection('Event')
+          .doc(event.id)
           .delete();
-      // Navigate back after deletion
+
       Navigator.pop(context);
       DialogUtils.showSnackBar(StringsManger.addEventSuccess);
     } catch (e) {
@@ -63,7 +65,12 @@ class _DetailsScreenState extends State<DetailsScreen> {
           Visibility(
             visible: event.userId == provider.myUser?.id,
             child: IconButton(
-              onPressed: () {},
+              onPressed: () {
+                detailsProvider.getEventLocation(event.latitude!, event.longitude!);
+                detailsProvider.getEvent(event);
+                Navigator.pushNamed(context, EditEventScreen.routeName,arguments: event);
+
+              },
               icon: SvgPicture.asset(AssetsManger.edit),
             ),
           ),
@@ -72,7 +79,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
             child: IconButton(
               onPressed: () async {
                 await deleteEvent();
-
               },
               icon: SvgPicture.asset(AssetsManger.delete),
             ),

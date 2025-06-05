@@ -63,6 +63,20 @@ class FirestoreHandler {
     return eventList;
   }
 
+  static Future<void> editEvent(Event event) async {
+    var collection = getEventCollection();
+    var document = collection.doc(event.id);
+    return document.update(({
+      "title": event.title,
+      "description": event.description,
+      "type": event.type,
+      "date": event.date,
+      "longitude": event.longitude,
+      "latitude": event.latitude,
+      "favoriteUsers": [],
+    }));
+  }
+
   static Stream<List<Event>> getAllEventsStream() async* {
     var collection = getEventCollection();
     var stream = collection.snapshots();

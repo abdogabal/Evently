@@ -80,7 +80,7 @@ class MapPickerProvider extends ChangeNotifier {
   //to-do\\
   void changeLocation(LatLng latLang) {
     eventLocation = latLang;
-    markers.removeWhere((marker) => marker.markerId.value != '1');
+    markers.removeWhere((marker) {return marker.markerId.value != '1';});
     markers.add(
       Marker(
         markerId: MarkerId(''),
@@ -96,4 +96,5 @@ class MapPickerProvider extends ChangeNotifier {
     placeMark = userPlaceMark;
     notifyListeners();
   }
+
 }

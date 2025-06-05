@@ -13,23 +13,26 @@ import 'package:evently/UI/CreateEvent/Widgets/PickLocation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
 import '../../../Core/Reusable_Component/CustomLocationPicker.dart';
 import '../../../Core/resources/ColorManger.dart';
+import '../../../Providers/DetailsProvider.dart';
 import '../../../Providers/UserProvider.dart';
 
-class CreateEventScreen extends StatefulWidget {
-  static const String routeName = 'createEvent';
+class EditEventScreen extends StatefulWidget {
+  static const String routeName = 'editEvent';
 
-  const CreateEventScreen({super.key});
+  const EditEventScreen({super.key});
 
   @override
-  State<CreateEventScreen> createState() => _CreateEventScreenState();
+  State<EditEventScreen> createState() => _EditEventScreenState();
 }
 
-class _CreateEventScreenState extends State<CreateEventScreen> {
-
+class _EditEventScreenState extends State<EditEventScreen> {
+  late Event event;
   int selectedTap = 0;
   late TextEditingController titleController;
   late TextEditingController discController;
@@ -38,16 +41,39 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
   TimeOfDay? selectedTime;
 
   @override
-  void initState() {
+   initState(){
     MapPickerProvider mapPickerProvider = Provider.of<MapPickerProvider>(
       context,
-      listen: false
+      listen: false,
     );
+    DetailsProvider detailsProvider = Provider.of<DetailsProvider>(
+      context,
+      listen: false,
+    );
+
+    event = detailsProvider.event!;
+    if (event.type == 'book') {
+      selectedTap = 0;
+    } else if (event.type == 'sport') {
+      selectedTap = 1;
+    } else {
+      selectedTap = 2;
+    }
     // TODO: implement initState
     super.initState();
-    mapPickerProvider.eventLocation=null;
-    titleController = TextEditingController();
-    discController = TextEditingController();
+
+    mapPickerProvider.eventLocation = null;
+    mapPickerProvider.eventLocation = LatLng(event.latitude!, event.longitude!);
+    mapPickerProvider.savePlaceMark(
+      detailsProvider.placeMark!
+    );
+    titleController = TextEditingController(text: event.title);
+    discController = TextEditingController(text: event.description);
+    selectedDate = event.date?.toDate();
+    selectedTime = TimeOfDay(
+      hour: selectedDate!.hour,
+      minute: selectedDate!.minute,
+    );
   }
 
   @override
@@ -63,9 +89,10 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
     MapPickerProvider mapPickerProvider = Provider.of<MapPickerProvider>(
       context,
     );
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(StringsManger.createEvent.tr()),
+        title: Text('Edit Event'),
         titleTextStyle: Theme.of(context).appBarTheme.titleTextStyle?.copyWith(
           color: Theme.of(context).colorScheme.primary,
         ),
@@ -73,6 +100,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
       ),
       body: SingleChildScrollView(
         child: DefaultTabController(
+          initialIndex: selectedTap,
           length: 3,
           child: Padding(
             padding: const EdgeInsets.all(16.0),
@@ -362,7 +390,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                   Container(
                     width: double.infinity,
                     child: CustomButton(
-                      title: StringsManger.addEvent.tr(),
+                      title: 'Update Event',
                       onClick: () async {
                         if (formKey.currentState!.validate()) {
                           if (selectedDate == null) {
@@ -392,29 +420,35 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                           );
                           DialogUtils.showLoading(context);
                           try {
-                            await FirestoreHandler.addEvent(
+                            await FirestoreHandler.editEvent(
                               Event(
                                 title: titleController.text,
                                 description: discController.text,
-                                latitude: mapPickerProvider.eventLocation?.latitude??0,
-                                longitude: mapPickerProvider.eventLocation?.longitude??0,
-                                userId: FirebaseAuth.instance.currentUser?.uid,
+                                latitude:
+                                    mapPickerProvider.eventLocation?.latitude ??
+                                    0,
+                                longitude:
+                                    mapPickerProvider
+                                        .eventLocation
+                                        ?.longitude ??
+                                    0,
                                 type: eventType[selectedTap],
                                 date: Timestamp.fromDate(eventDate),
+                                id: event.id
                               ),
                             );
 
                             Navigator.pop(context);
                             DialogUtils.showSnackBar(
-                              StringsManger.addEventSuccess.tr(),
+                              'Event edited successfully',
                             );
-                            mapPickerProvider.eventLocation=null;
+                            mapPickerProvider.eventLocation = null;
                             Navigator.pop(context);
                           } catch (error) {
                             Navigator.pop(context);
                             DialogUtils.showSnackBar(error.toString());
+                            print(error);
                           }
-
                         }
                       },
                     ),

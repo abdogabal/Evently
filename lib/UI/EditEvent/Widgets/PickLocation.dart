@@ -6,8 +6,6 @@ import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
-import '../../../Providers/DetailsProvider.dart';
-
 class PickLocation extends StatefulWidget {
   static const String routeName = 'pickLocation';
 
@@ -22,10 +20,6 @@ class _PickLocationState extends State<PickLocation> {
   Widget build(BuildContext context) {
     MapPickerProvider mapPickerProvider = Provider.of<MapPickerProvider>(
       context,
-    );
-    DetailsProvider detailsProvider = Provider.of<DetailsProvider>(
-      context,
-
     );
     return Scaffold(
       body: Column(
@@ -46,7 +40,6 @@ class _PickLocationState extends State<PickLocation> {
               initialCameraPosition: mapPickerProvider.cameraPosition,
               onMapCreated: (controller) {
                 mapPickerProvider.googleMapController = controller;
-
               },
               mapType: MapType.normal,
               markers: mapPickerProvider.markers,

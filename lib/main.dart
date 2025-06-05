@@ -17,6 +17,7 @@ import 'Providers/DetailsProvider.dart';
 import 'UI/CreateEvent/Screen/CreateEventScreen.dart';
 import 'UI/CreateEvent/Widgets/PickLocation.dart';
 import 'UI/DetailsScreen/Screens/DetailsScreen.dart';
+import 'UI/EditEvent/Screen/EditEventScreen.dart';
 import 'UI/Login/Screens/Login_Screen.dart';
 import 'UI/Onboarding/Screens/Onboarding_Screens.dart';
 import 'UI/Start/Screen/Start_Screen.dart';
@@ -74,6 +75,7 @@ class MyApp extends StatelessWidget {
         CreateEventScreen.routeName: (_) => CreateEventScreen(),
         PickLocation.routeName: (_) => PickLocation(),
         DetailsScreen.routeName: (_) => DetailsScreen(),
+        EditEventScreen.routeName: (_) => EditEventScreen(),
       },
       initialRoute: SplashScreen.routeName,
     );
